@@ -859,7 +859,7 @@
             this.adjustCalendars();
         },
 
-        adjustDate: function(sign, days, even) {
+        adjustDate: function(sign, days, event) {
 
             var day = this.getDate() || new Date();
             var difference = parseInt(days)*24*60*60*1000;
