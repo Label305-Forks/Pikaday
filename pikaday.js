@@ -1,4 +1,3 @@
-
 /*!
  * Pikaday
  *
@@ -653,7 +652,7 @@
         var defDate = opts.defaultDate;
 
         if (isDate(defDate)) {
-            if (opts.setDefaultDate, false) {
+            if (opts.setDefaultDate) {
                 self.setDate(defDate, true);
             } else {
                 self.gotoDate(defDate);
@@ -860,7 +859,7 @@
             this.adjustCalendars();
         },
 
-        adjustDate: function(sign, days, event) {
+        adjustDate: function(sign, days, even) {
 
             var day = this.getDate() || new Date();
             var difference = parseInt(days)*24*60*60*1000;
