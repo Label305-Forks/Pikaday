@@ -1,3 +1,4 @@
+
 /*!
  * Pikaday
  *
@@ -465,7 +466,7 @@
 
             if (!hasClass(target, 'is-disabled')) {
                 if (hasClass(target, 'pika-button') && !hasClass(target, 'is-empty') && !hasClass(target.parentNode, 'is-disabled')) {
-                    self.setDate(new Date(target.getAttribute('data-pika-year'), target.getAttribute('data-pika-month'), target.getAttribute('data-pika-day')));
+                    self.setDate(new Date(target.getAttribute('data-pika-year'), target.getAttribute('data-pika-month'), target.getAttribute('data-pika-day')), false, e);
                     if (opts.bound) {
                         sto(function() {
                             self.hide();
@@ -525,16 +526,16 @@
                         break;
                     case 37:
                         e.preventDefault();
-                        self.adjustDate('subtract', 1);
+                        self.adjustDate('subtract', 1, e);
                         break;
                     case 38:
-                        self.adjustDate('subtract', 7);
+                        self.adjustDate('subtract', 7, e);
                         break;
                     case 39:
-                        self.adjustDate('add', 1);
+                        self.adjustDate('add', 1, e);
                         break;
                     case 40:
-                        self.adjustDate('add', 7);
+                        self.adjustDate('add', 7, e);
                         break;
                 }
             }
@@ -557,7 +558,7 @@
                 date = new Date(Date.parse(opts.field.value));
             }
             if (isDate(date)) {
-              self.setDate(date);
+              self.setDate(date, false, e);
             }
             if (!self._v) {
                 self.show();
@@ -652,7 +653,7 @@
         var defDate = opts.defaultDate;
 
         if (isDate(defDate)) {
-            if (opts.setDefaultDate) {
+            if (opts.setDefaultDate, false) {
                 self.setDate(defDate, true);
             } else {
                 self.gotoDate(defDate);
@@ -769,7 +770,7 @@
         setMoment: function(date, preventOnSelect)
         {
             if (hasMoment && moment.isMoment(date)) {
-                this.setDate(date.toDate(), preventOnSelect);
+                this.setDate(date.toDate(), preventOnSelect, false);
             }
         },
 
@@ -784,7 +785,7 @@
         /**
          * set the current selection
          */
-        setDate: function(date, preventOnSelect)
+        setDate: function(date, preventOnSelect, event)
         {
             if (!date) {
                 this._d = null;
@@ -821,7 +822,7 @@
                 fireEvent(this._o.field, 'change', { firedBy: this });
             }
             if (!preventOnSelect && typeof this._o.onSelect === 'function') {
-                this._o.onSelect.call(this, this.getDate());
+                this._o.onSelect.call(this, this.getDate(), event);
             }
         },
 
@@ -859,7 +860,7 @@
             this.adjustCalendars();
         },
 
-        adjustDate: function(sign, days) {
+        adjustDate: function(sign, days, event) {
 
             var day = this.getDate() || new Date();
             var difference = parseInt(days)*24*60*60*1000;
@@ -872,7 +873,7 @@
                 newDay = new Date(day.valueOf() - difference);
             }
 
-            this.setDate(newDay);
+            this.setDate(newDay, false, event);
         },
 
         adjustCalendars: function() {
